@@ -1,0 +1,30 @@
+{% extends "cats/base_menu.html" %}
+{% block content %}
+<h1>Cats</h1>
+<p>
+{% if cat_list %}
+<ul>
+  {% for cat in cat_list %}
+    <li>
+        <a href="{% url 'cat_detail'  cat.id %}">{{ cat.name }}</a>
+        {% if cat.owner == user %}
+        (<a href="{% url 'cat_update' cat.id %}">Edit</a> |
+        <a href="{% url 'cat_delete' cat.id %}">Delete</a>)
+        </p>
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no cats in the database.</p>
+{% endif %}
+</p>
+<p>
+<a href="{% url 'cat_create' %}">Create Cat</a> |
+{% if user.is_authenticated %}
+<a href="{% url 'logout' %}?next=/cats">Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'cats' %}">Login</a>
+{% endif %}
+</p>
+{% endblock %}
